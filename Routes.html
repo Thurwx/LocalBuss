@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa com Leaflet.js e Rota</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/mapa.css"> <!-- Inclua a folha de estilo CSS aqui -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+    <!-- Menu suspenso para selecionar a rota -->
+    <select id="route-select">
+        <option value="route1">Povo Feliz</option>
+        <option value="route2">São Pedro</option>
+        <option value="route3">Cohab / Santa Maria</option>
+        <option value="route4">Bonanza</option>
+        <option value="route5">São Roque</option>
+    </select>
+     <!-- Botão para exibir o mapa -->
+
+    <!-- Conteúdo do mapa -->
+    <div id="map"></div>
+
+    <!-- Inclua a biblioteca Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Inclua a biblioteca leaflet-routing-machine -->
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        var mymap = L.map('map').setView([-23.11111,-47.71816], 13); // Coordenadas aproximadas de Tietê, São Paulo, Brasil
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+
+       
+        var route1 = null; // Variável para armazenar a rota 1
+        var route2 = null; // Variável para armazenar a rota 2
+        var route3 = null; // Variável para armazenar a rota 3
+        var route4 = null; // varuavel para armazenar a rota 4
+        var route5 = null; // variavel para armazenar a rota 5
+        var startPoint = L.latLng(-23.11108, -47.71820); // Coordenada de partida
+        var endPoint = L.latLng(-23.10186, -47.71200); // Coordenada da parada
+
+        // Crie marcadores com rótulos para a coordenada de partida e de parada
+        var startMarker = L.marker(startPoint).addTo(mymap).bindPopup('Partida');
+        var endMarker = L.marker(endPoint).addTo(mymap).bindPopup('Parada');
+
+        function createMarker(lat, lng, name) {
+            L.marker([lat, lng]).addTo(mymap).bindPopup(name);
+        }
+        // Função para criar a rota 1
+        function createRoute1() {
+            mymap.removeLayer(startMarker);
+            mymap.removeLayer(endMarker);
+            route1 = L.Routing.control({
+                waypoints: [
+                    L.latLng(-23.10794, -47.71799),
+                    L.latLng(-23.11108, -47.71820), // Adicionei o marcador com o rótulo 'Ponto de Partida'
+                    L.latLng(-23.11313, -47.71444), // Rua Marcos Marcuz
+                    L.latLng(-23.11303,-47.71455), // Avenida Guiomar Fleury de Camargo
+                    L.latLng(-23.11798,-47.71103), // Rotatória
+                    L.latLng(-23.10570,-47.71044),  // Rua Francisco de Toledo
+                    L.latLng(-23.10221,-47.71293), //rotatoria centro
+                    L.latLng(-23.10207,-47.71250), // frente pauludeto
+                    L.latLng(-23.10186, -47.71200),// lado baixo rodoviaria
+                    L.latLng(-23.10185,-47.71269), 
+                    L.latLng(-23.09988, -47.71311),
+                    L.latLng(-23.09962, -47.71583),
+                    L.latLng(-23.09556, -47.71744),
+                    L.latLng(-23.09686, -47.72155),
+                    L.latLng(-23.09630, -47.72397),
+                    L.latLng(-23.09894, -47.72607),
+                    L.latLng(-23.09977, -47.72473),
+                    L.latLng(-23.10200, -47.72495),
+                    L.latLng(-23.10548, -47.72494),
+                    L.latLng(-23.11134, -47.72411),
+                    L.latLng(-23.11229, -47.72498),
+                    L.latLng(-23.11190, -47.72640),
+                    L.latLng(-23.11058, -47.72649),
+                    L.latLng(-23.10913, -47.72679),
+                    L.latLng(-23.10517, -47.72656),
+                    L.latLng(-23.10078, -47.72617),
+                    L.latLng(-23.09788, -47.72578),
+                    L.latLng(-23.09640, -47.72415),
+                    L.latLng(-23.09755, -47.71745),
+                    L.latLng(-23.09950, -47.71555),
+                    L.latLng(-23.10097, -47.71261),
+                    L.latLng(-23.10206, -47.71192),
+                    L.latLng(-23.10542, -47.71213),
+                    L.latLng(-23.10558, -47.71688),
+                    L.latLng(-23.10558, -47.71759),
+                ],
+                routeWhileDragging: false,
+                show: false,
+                draggableWaypoints: false, // Impede que os pontos de parada sejam arrastados
+                addWaypoints: false, // Impede que novos pontos de parada sejam adicionados
+                routeLine: function(route, options) {
+                    return L.Routing.line(route, {
+                        styles: [{ color: 'blue', weight: 3 }]
+                    });
+                },
+                routeDrag: false, // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para a rota
+                geocoder: false // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para os marcadores
+            }).addTo(mymap);
+            startMarker.addTo(mymap).bindPopup('Partida');
+            endMarker.addTo(mymap).bindPopup('Parada');
+        }
+
+        // Função para criar a rota 2
+        function createRoute2() {
+            mymap.removeLayer(startMarker);
+            mymap.removeLayer(endMarker);
+            route2 = L.Routing.control({
+                waypoints: [
+                    L.latLng(-23.10794, -47.71799),
+                    L.latLng(-23.11108, -47.71820), // Terminal Rodoviário Professor Oswaldo Rodrigues de Moraes
+                    L.latLng(-23.11313, -47.71444), // Rua Marcos Marcuz
+                    L.latLng(-23.11303,-47.71455), // Avenida Guiomar Fleury de Camargo
+                    L.latLng(-23.11798,-47.71103), // Rotatória
+                    L.latLng(-23.10570,-47.71044),  // Rua Francisco de Toledo
+                    L.latLng(-23.10221,-47.71293), //rotatoria centro
+                    L.latLng(-23.10207,-47.71250), // frente pauludeto
+                    L.latLng(-23.10186, -47.71200),// lado baixo rodoviaria
+                    L.latLng(-23.10185,-47.71269),
+                    L.latLng(-23.09988, -47.71311),
+                    L.latLng(-23.09962, -47.71583),
+                    L.latLng(-23.09556, -47.71744),
+                    L.latLng(-23.08176, -47.72347),
+                    L.latLng(-23.08197, -47.72586),
+                    L.latLng(-23.08205, -47.72876),
+                    L.latLng(-23.08220, -47.72710),
+                    L.latLng(-23.07915, -47.72726),
+                    L.latLng(-23.07556, -47.72697),
+                    L.latLng(-23.07628, -47.72882),
+                    L.latLng(-23.07995, -47.72679),
+                    L.latLng(-23.07931, -47.72423),
+                    L.latLng(-23.09753, -47.71742),
+                    L.latLng(-23.09940, -47.71559),
+                    L.latLng(-23.10094, -47.71252),
+                    L.latLng(-23.10214, -47.71200),
+                    L.latLng(-23.10538, -47.71127),
+                    L.latLng(-23.10561, -47.71740),
+                ],
+                routeWhileDragging: false,
+                show: false, // Inicialmente, não exibe a rota 2
+                draggableWaypoints: false, // Impede que os pontos de parada sejam arrastados
+                addWaypoints: false, // Impede que novos pontos de parada sejam adicionados
+                routeLine: function(route, options) {
+                    return L.Routing.line(route, {
+                        styles: [{ color: '#28E032', weight: 3 }]
+                    });
+                },
+                routeDrag: false, // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para a rota
+                geocoder: false // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para os marcadores
+            }).addTo(mymap);
+            startMarker.addTo(mymap).bindPopup('Partida');
+            endMarker.addTo(mymap).bindPopup('Parada');
+        }
+
+        // Função para criar a rota 3
+        function createRoute3() {
+            mymap.removeLayer(startMarker);
+            mymap.removeLayer(endMarker);
+        route3 = L.Routing.control({
+        waypoints: 
+        [
+            L.latLng(-23.10794, -47.71799),
+            L.latLng(-23.11108, -47.71820), // terminal
+            L.latLng(-23.11313, -47.71444),
+            L.latLng(-23.12782, -47.69829), // entrada santa maria
+            L.latLng(-23.12927, -47.70290),
+            L.latLng(-23.12854, -47.70819), // saida santa maria 
+            L.latLng(-23.12541, -47.71142),
+            L.latLng(-23.11692, -47.71099),
+            L.latLng(-23.10564, -47.71044), // cemiterio 
+            L.latLng(-23.10188, -47.71209), // Parte Baixo Rodo
+            L.latLng(-23.10186, -47.71177), // (trajeto para a Cohab)
+            //
+            L.latLng(-23.10232, -47.71173),
+            L.latLng(-23.09728, -47.70692),
+            L.latLng(-23.09155, -47.69836),
+            L.latLng(-23.09290, -47.69585),
+            L.latLng(-23.09203, -47.69432),
+            L.latLng(-23.08891, -47.69598),
+            L.latLng(-23.08631, -47.69635),
+            L.latLng(-23.08989, -47.70021),
+            L.latLng(-23.10145, -47.71076),
+            L.latLng(-23.10211, -47.71224), // chegada Rodo Cohab 
+            L.latLng(-23.10537, -47.71137),
+            L.latLng(-23.10558, -47.71759),
+        ],
+
+                routeWhileDragging: false,
+                show: false, // Inicialmente, não exibe a rota 3
+                draggableWaypoints: false, // Impede que os pontos de parada sejam arrastados
+                addWaypoints: false, // Impede que novos pontos de parada sejam adicionados
+            routeLine: function(route, options) {
+                return L.Routing.line(route, {
+                    styles: [{ color: '#DE461D', weight: 3 }]
+                });
+            },
+                routeDrag: false, // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para a rota
+                geocoder: false // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para os marcadores
+             }).addTo(mymap);
+             startMarker.addTo(mymap).bindPopup('Partida');
+            endMarker.addTo(mymap).bindPopup('Parada');
+        }
+
+        function createRoute4() {
+            mymap.removeLayer(startMarker);
+            mymap.removeLayer(endMarker);
+            route4 = L.Routing.control({
+                waypoints: [
+                    L.latLng(-23.10794, -47.71799),
+                    L.latLng(-23.11108, -47.71820), // Terminal Rodoviário Professor Oswaldo Rodrigues de Moraes
+                    L.latLng(-23.11313, -47.71444), // Rua Marcos Marcuz
+                    L.latLng(-23.11303,-47.71455), // Avenida Guiomar Fleury de Camargo
+                    L.latLng(-23.11798,-47.71103), // Rotatória
+                    L.latLng(-23.10570,-47.71044),  // Rua Francisco de Toledo
+                    L.latLng(-23.10221,-47.71293), //rotatoria centro
+                    L.latLng(-23.10207,-47.71250), // frente pauludeto
+                    L.latLng(-23.10186, -47.71200),// lado baixo rodoviaria
+                    L.latLng(-23.10185,-47.71269),
+                    L.latLng(-23.09988, -47.71311),
+                    L.latLng(-23.09962, -47.71583),
+                    L.latLng(-23.09556, -47.71744),
+                    L.latLng(-23.09175, -47.71611),
+                    L.latLng(-23.08637, -47.71192),
+                    L.latLng(-23.08589, -47.71433),
+                    L.latLng(-23.08797, -47.71535),
+                    L.latLng(-23.09090, -47.71766),
+                    L.latLng(-23.09952, -47.71557),
+                    L.latLng(-23.10096, -47.71267),
+                    L.latLng(-23.10213, -47.71199),
+                    L.latLng(-23.1054, -47.7113),
+                    L.latLng(-23.10563, -47.71740),
+                ],
+                routeWhileDragging: false,
+                show: false,
+                draggableWaypoints: false, // Impede que os pontos de parada sejam arrastados
+                addWaypoints: false, // Impede que novos pontos de parada sejam adicionados
+                routeLine: function(route, options) {
+                    return L.Routing.line(route, {
+                        styles: [{ color: '#A921FF', weight: 3 }]
+                    });
+                },
+                routeDrag: false, // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para a rota
+                geocoder: false // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para os marcadores
+            }).addTo(mymap);
+            startMarker.addTo(mymap).bindPopup('Partida');
+            endMarker.addTo(mymap).bindPopup('Parada');
+        }
+
+        function createRoute5() {
+            mymap.removeLayer(startMarker);
+            mymap.removeLayer(endMarker);
+            route5 = L.Routing.control({
+                waypoints: [
+                    L.latLng(-23.10794, -47.71799),
+                    L.latLng(-23.11108, -47.71820), // Terminal Rodoviário Professor Oswaldo Rodrigues de Moraes
+                    L.latLng(-23.11313, -47.71444), // Rua Marcos Marcuz
+                    L.latLng(-23.13155, -47.72306),
+                    L.latLng(-23.13390, -47.72309),
+                    L.latLng(-23.13558, -47.72276),
+                    L.latLng(-23.1169, -47.7110),
+                    L.latLng(-23.11255, -47.71078),
+                    L.latLng(-23.10562, -47.71045),
+                    L.latLng(-23.10186, -47.71200),// lado baixo rodoviaria
+                    L.latLng(-23.10211, -47.71208),
+                    L.latLng(-23.10211, -47.71208),
+                    L.latLng(-23.10561, -47.71742),
+                ],
+                routeWhileDragging: false,
+                show: false, // Inicialmente, não exibe a rota 5
+                draggableWaypoints: false, // Impede que os pontos de parada sejam arrastados
+                addWaypoints: false, // Impede que novos pontos de parada sejam adicionados
+                routeLine: function(route, options) {
+                    return L.Routing.line(route, {
+                styles: [{ color: '#F74AB4', weight: 5 }]
+            });
+                },
+                routeDrag: false, // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para a rota
+                geocoder: false // Desabilita a exibição detalhada de coordenadas (nomes das ruas) para os marcadores
+            }).addTo(mymap);
+            startMarker.addTo(mymap).bindPopup('Partida');
+            endMarker.addTo(mymap).bindPopup('Parada');
+        }
+
+        
+        // Evento para alterar a rota selecionada com base na seleção do menu suspenso
+        document.getElementById('route-select').addEventListener('change', function() {
+            var selectedRoute = this.value;
+            if (selectedRoute === 'route1') 
+            {
+                // Exibe a rota 1 e desabilita as outras
+                createRoute1();
+                if (route2 !== null) {
+                    mymap.removeControl(route2);
+                }
+                if (route3 !== null) {
+                    mymap.removeControl(route3);
+                }
+                if (route4 !== null){
+                    mymap.removeControl(route4)
+                }
+                if (route5 !== null){
+                    mymap.removeControl(route5)
+                }
+            } 
+            else if (selectedRoute === 'route2') 
+            {
+                // Exibe a rota 2 e desabilita as outras
+                createRoute2();
+                if (route1 !== null) {
+                    mymap.removeControl(route1);
+                }
+                if (route3 !== null) {
+                    mymap.removeControl(route3);
+                }
+                if (route4 !== null){
+                    mymap.removeControl(route4)
+                }
+                if (route5 !== null){
+                    mymap.removeControl(route5)
+                }
+            } 
+            else if (selectedRoute === 'route3') 
+            {
+                // Exibe a rota 3 e desabilita as outras
+                createRoute3();
+                if (route1 !== null) {
+                    mymap.removeControl(route1);
+                }
+                if (route2 !== null) {
+                    mymap.removeControl(route2);
+                }
+                if (route4 !== null){
+                    mymap.removeControl(route4)
+                }
+                if (route5 !== null){
+                    mymap.removeControl(route5)
+                }
+            } 
+            else if (selectedRoute === 'route4')
+            {
+                createRoute4();
+                if (route1 !== null) {
+                    mymap.removeControl(route1);
+                }
+                if (route2 !== null) {
+                    mymap.removeControl(route2);
+                }
+                if (route3 !== null){
+                    mymap.removeControl(route3)
+                }
+                if (route5 !== null){
+                    mymap.removeControl(route5)
+                }
+            }
+            else if (selectedRoute === 'route5')
+            {
+            createRoute5(); // Corrigido para chamar a função createRoute5
+                if (route1 !== null) {
+                    mymap.removeControl(route1);
+                }
+                if (route2 !== null) {
+                    mymap.removeControl(route2);
+                }
+                if (route3 !== null){
+                    mymap.removeControl(route3)
+                }
+                if (route4 !== null){
+                    mymap.removeControl(route4)
+                }
+            }
+        });
+    </script>
+</body>
+</html>
