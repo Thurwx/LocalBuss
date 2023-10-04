@@ -1,0 +1,46 @@
+/* Estilo personalizado */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+.top-churrasco {
+    background-color: transparent; /* Azul claro com transparência */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.centered-text h1 {
+    font-size: 36px;
+    background-color: rgba(38, 139, 210, 0.8); /* Azul claro com transparência */
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff; /* Branco */
+}
+
+.normal-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* Branco */
+}
+
+.button-start {
+    background-color: #007bff; /* Cor de fundo azul */
+    color: #fff; /* Cor do texto branco */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    text-decoration: none; /* Remova sublinhado de link */
+    cursor: pointer; /* Transforma o cursor em uma mãozinha quando passa por cima */
+    transition: background-color 0.3s ease; /* Efeito de transição suave */
+}
+
+.button-start:hover {
+    background-color: #0056b3; /* Cor de fundo azul mais escura quando hover */
+}

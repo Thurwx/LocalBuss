@@ -1,0 +1,53 @@
+/* Estilo para o contêiner do mapa */   
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Coloca o mapa no fundo da tela */
+}
+
+/* Estilo para a barra de navegação */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1; /* Coloca a barra de navegação acima do mapa */
+}
+
+/* Estilo para o botão de alternar o menu */
+#toggle-menu {
+  cursor: pointer;
+  color: rgb(255, 0, 0);
+  font-size: 24px;
+}
+/* Estilo futurista para o menu suspenso */
+#route-select {
+  background-color: #000000; /* Define o fundo como transparente */
+  border: 2px solid #000000; /* Adicione uma borda sólida com uma cor futurista (por exemplo, azul) */
+  color: #ffffff; /* Define a cor do texto */
+  padding: 10px; /* Adicione algum espaço interno para melhor aparência */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 5px; /* Borda arredondada */
+  appearance: none; /* Remove o estilo padrão do sistema */
+}
+
+/* Estilo para as opções no menu suspenso */
+#route-select option {
+  background-color: #333; /* Cor de fundo das opções */
+  color: #ffffff; /* Cor do texto das opções */
+  font-size: 16px; /* Tamanho da fonte das opções */
+}
+
+/* Estilize a seta do menu suspenso (você pode usar uma imagem de ícone futurista) */
+#route-select::-ms-expand {
+  display: none; /* Esconde a seta em navegadores IE */
+}
+
+/* Estilo quando o menu suspenso estiver em foco (opcional) */
+#route-select:focus {
+  border-color: #FFD700; /* Cor da borda quando em foco */
+  box-shadow: 0 0 5px #FFD700; /* Sombra quando em foco */
+}
